@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CustomizedTheme" parent="@android:style/Theme.Holo.Light">
+
+
+    </style>
+
 </resources>
