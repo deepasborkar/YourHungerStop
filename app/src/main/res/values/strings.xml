@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">YourHungerStop</string>
+    <string name="get_recent_posts">http://www.yourhungerstop.com/api/get_posts/?count=50</string>
+    <string name="posts">posts</string>
+    <string name="title">title</string>
+    <string name="attachments">attachments</string>
+    <string name="url">url</string>
+    <string name="categories">categories</string>
 </resources>

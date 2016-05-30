@@ -2,6 +2,7 @@ package com.yourhungerstop.yourhungerstop;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +49,7 @@ public class JSONParser {
                 result.append(line);
             }
 
+
             json = result.toString();
         } catch (MalformedURLException e) {
             Log.e("URL data error", "JSONParser.getJSONFromUrl: URL is invalid" + e.toString());
@@ -68,7 +70,4 @@ public class JSONParser {
         return jObject;
     }
 
-    public JSONObject getRecentPostsFromUrl(String url) {
-           return getJSONFromUrl(url);
-    }
 }
