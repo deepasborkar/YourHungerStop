@@ -1,6 +1,6 @@
 package com.yourhungerstop.yourhungerstop;
 
-import java.io.FileNotFoundException;
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,7 +28,7 @@ public class CustomListAdapter extends ArrayAdapter<MyRecipe> {
     public CustomListAdapter(Context context, int resource, ArrayList<MyRecipe> objects) {
         super(context, resource, objects);
         this.context = context;
-        inflator = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        inflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         layoutResourceId = resource;
         recipesList = objects;
     }
@@ -67,15 +65,22 @@ public class CustomListAdapter extends ArrayAdapter<MyRecipe> {
         }
 
         protected Bitmap doInBackground(String... urls) {
-            HttpURLConnection urlConnection = null;
+            HttpURLConnection urlConnection;
             Bitmap bitmap = null;
             try {
                 URL uri = new URL(urls[0]);
                 urlConnection = (HttpURLConnection) uri.openConnection();
 
-                InputStream inputStream = urlConnection.getInputStream();
+                InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
                 if (inputStream != null) {
-                    bitmap = BitmapFactory.decodeStream(inputStream);
+
+                    //read the image details from the input stream
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+
+                    options.inSampleSize = 4;
+
+                    // Decode bitmap with inSampleSize set
+                    bitmap = BitmapFactory.decodeStream(inputStream, null, options);
                 }
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
@@ -88,5 +93,40 @@ public class CustomListAdapter extends ArrayAdapter<MyRecipe> {
             bmImage.setImageBitmap(result);
         }
 
+
+        /**
+         * -------------------------------------------------------------
+         * METHOD NOT USED CURRENTLY. CAN BE USED IN FUTURE IF REQUIRED
+         * --------------------------------------------------------------
+         * This method will retrieve the actual size of the image and then calculate the inSampleSize
+         * value to scale it down. This helps in avoiding out of memory error for large image sizes
+         *
+         * @param options    : The BitmapFactory options object which has the details about the image
+         * @param reqWidth   : The required width
+         * @param reqHeight: The required height
+         * @return inSampleSize value
+         */
+        public int calculateInSampleSize(
+                BitmapFactory.Options options, int reqWidth, int reqHeight) {
+            // Raw height and width of image
+            final int height = options.outHeight;
+            final int width = options.outWidth;
+            int inSampleSize = 1;
+
+            if (height > reqHeight || width > reqWidth) {
+
+                final int halfHeight = height / 2;
+                final int halfWidth = width / 2;
+
+                // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+                // height and width larger than the requested height and width.
+                while ((halfHeight / inSampleSize) > reqHeight
+                        && (halfWidth / inSampleSize) > reqWidth) {
+                    inSampleSize *= 2;
+                }
+            }
+
+            return inSampleSize;
+        }
     }
 }

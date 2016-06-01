@@ -48,8 +48,6 @@ public class JSONParser {
             while ((line = reader.readLine()) != null) {
                 result.append(line);
             }
-
-
             json = result.toString();
         } catch (MalformedURLException e) {
             Log.e("URL data error", "JSONParser.getJSONFromUrl: URL is invalid" + e.toString());
