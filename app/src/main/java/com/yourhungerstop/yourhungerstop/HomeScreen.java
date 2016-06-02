@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 
 import com.google.android.gms.appindexing.Action;
@@ -18,22 +19,17 @@ import java.util.ArrayList;
 
 public class HomeScreen extends AppCompatActivity {
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         //gets the recent posts on load of the page
         new FetchRecentRecipes().execute(getString(R.string.get_recent_posts));
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     private class FetchRecentRecipes extends AsyncTask<String, Void, JSONObject> {

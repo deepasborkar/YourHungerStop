@@ -89,7 +89,8 @@ public class CustomListAdapter extends ArrayAdapter<MyRecipe> {
             return bitmap;
         }
 
-        protected void onPostExecute(Bitmap result) {
+        protected void onPostExecute(Bitmap result)
+        {
             bmImage.setImageBitmap(result);
         }
 
