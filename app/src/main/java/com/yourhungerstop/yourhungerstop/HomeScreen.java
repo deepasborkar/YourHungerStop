@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.ListView;
 
 import com.google.android.gms.appindexing.Action;
@@ -32,6 +34,21 @@ public class HomeScreen extends AppCompatActivity {
         new FetchRecentRecipes().execute(getString(R.string.get_recent_posts));
     }
 
+    /**
+     * Creates a menu on the toolbar with the menu items defined in categories.xml
+     * @param menu
+     * @return
+     */
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.categories, menu);
+        return true;
+    }
+
+    /**
+     * Fetches the recent recipes from wordpress using JSON
+     */
     private class FetchRecentRecipes extends AsyncTask<String, Void, JSONObject> {
 
         @Override
@@ -79,7 +96,6 @@ public class HomeScreen extends AppCompatActivity {
             listView.setAdapter(recipesAdapter);
 
         }
-
     }
 }
 

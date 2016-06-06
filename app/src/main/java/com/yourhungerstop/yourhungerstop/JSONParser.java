@@ -41,8 +41,8 @@ public class JSONParser {
             urlConnection = (HttpURLConnection) url.openConnection();
 
             //read the data from the URL
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String line;
             while ((line = reader.readLine()) != null) {

@@ -51,12 +51,14 @@ public class CustomListAdapter extends ArrayAdapter<MyRecipe> {
         holder.tvTitle.setText(recipesList.get(position).getRecipeName());
         return row;
     }
-
     static class ViewHolder {
         public ImageView imageview;
         public TextView tvTitle;
     }
 
+    /**
+     * Downloads the image from the wordpress site
+     */
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
