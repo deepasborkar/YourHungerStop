@@ -1,17 +1,14 @@
 package com.yourhungerstop.yourhungerstop;
 
-import android.net.Uri;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +33,7 @@ public class HomeScreen extends AppCompatActivity {
 
     /**
      * Creates a menu on the toolbar with the menu items defined in categories.xml
+     *
      * @param menu
      * @return
      */
@@ -43,6 +41,19 @@ public class HomeScreen extends AppCompatActivity {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.categories, menu);
+        return true;
+    }
+
+    @Override
+    /**
+     * Method called when any menu item is selected
+     */
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String category = (String) item.getTitleCondensed();
+        //pass the category name to the CategoryRecipesScreen to retrieve the recipes associated with a category
+        Intent intent = new Intent(this, CategoryRecipesScreen.class);
+        intent.putExtra(getString(R.string.category_name), category);
+        startActivity(intent);
         return true;
     }
 

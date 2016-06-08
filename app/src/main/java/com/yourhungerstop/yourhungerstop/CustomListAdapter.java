@@ -35,7 +35,7 @@ public class CustomListAdapter extends ArrayAdapter<MyRecipe> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // convert view = design
+        // sets the rows
         View row = convertView;
         if (row == null) {
             holder = new ViewHolder();
