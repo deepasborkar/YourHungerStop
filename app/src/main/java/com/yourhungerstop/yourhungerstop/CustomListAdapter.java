@@ -76,13 +76,7 @@ public class CustomListAdapter extends ArrayAdapter<MyRecipe> {
                 InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
                 if (inputStream != null) {
 
-                    //read the image details from the input stream
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-
-                    options.inSampleSize = 4;
-
-                    // Decode bitmap with inSampleSize set
-                    bitmap = BitmapFactory.decodeStream(inputStream, null, options);
+                   bitmap = BitmapFactory.decodeStream(inputStream);
                 }
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());

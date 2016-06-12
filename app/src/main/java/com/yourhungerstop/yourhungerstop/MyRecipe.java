@@ -7,7 +7,16 @@ public class MyRecipe {
 
     private String recipeName;
     private String recipeImage;
-    private StringBuffer recipeDescription;
+
+    public String getRecipeURL() {
+        return recipeURL;
+    }
+
+    public void setRecipeURL(String recipeURL) {
+        this.recipeURL = recipeURL;
+    }
+
+    private String recipeURL;
 
     public MyRecipe(String recipeName) {
         this.recipeName = recipeName;
@@ -33,11 +42,5 @@ public class MyRecipe {
         this.recipeImage = recipeImage;
     }
 
-    public StringBuffer getRecipeDescription() {
-        return recipeDescription;
-    }
 
-    public void setRecipeDescription(StringBuffer recipeDescription) {
-        this.recipeDescription = recipeDescription;
-    }
 }

@@ -8,7 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,6 +22,8 @@ import java.util.ArrayList;
 
 public class HomeScreen extends AppCompatActivity {
 
+    ArrayList<MyRecipe> recentRecipesList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +32,22 @@ public class HomeScreen extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
+        ListView lvRecipes = (ListView) findViewById(R.id.listRecentRecipes);
+        assert lvRecipes != null;
+        assert lvRecipes != null;
+        lvRecipes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MyRecipe recipe = (MyRecipe) parent.getItemAtPosition(position);
+                String url = recipe.getRecipeURL();
+                setContentView(R.layout.webview_recipe);
+                WebView webview = (WebView) findViewById(R.id.webview);
+                webview.loadUrl(url);
+
+            }
+        });
 
         //gets the recent posts on load of the page
         new FetchRecentRecipes().execute(getString(R.string.get_recent_posts));
@@ -72,10 +94,7 @@ public class HomeScreen extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(JSONObject dataFetched) {
-            String title = "", attachment = "";
-
-            ArrayList<MyRecipe> recentRecipesList = new ArrayList<>();
-
+            String title = "", attachment = "", url = "";
             try {
                 //get the JSON array for all posts
                 JSONArray recipes = dataFetched.getJSONArray(getString(R.string.posts));
@@ -85,14 +104,17 @@ public class HomeScreen extends AppCompatActivity {
                     JSONObject obj = recipes.getJSONObject(i);
                     title = obj.getString(getString(R.string.title));
 
+                    url = obj.getString(getString(R.string.url));
+
                     //get the featured image associated with the post
-                    JSONObject imageObject = obj.getJSONObject(getString(R.string.thumbnail_images)).getJSONObject(getString(R.string.medium_large));
+                    JSONObject imageObject = obj.getJSONObject(getString(R.string.thumbnail_images)).getJSONObject(getString(R.string.thumbnail));
                     attachment = imageObject.getString(getString(R.string.url));
 
                     //create a new MyRecipe object and add it to the recipes list
                     MyRecipe recipe = new MyRecipe();
                     recipe.setRecipeName(title);
                     recipe.setRecipeImage(attachment);
+                    recipe.setRecipeURL(url);
                     recentRecipesList.add(recipe);
                 }
 
