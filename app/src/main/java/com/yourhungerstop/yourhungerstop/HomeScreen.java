@@ -35,8 +35,6 @@ public class HomeScreen extends AppCompatActivity {
 
 
         ListView lvRecipes = (ListView) findViewById(R.id.listRecentRecipes);
-        assert lvRecipes != null;
-        assert lvRecipes != null;
         lvRecipes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -44,6 +42,11 @@ public class HomeScreen extends AppCompatActivity {
                 String url = recipe.getRecipeURL();
                 setContentView(R.layout.webview_recipe);
                 WebView webview = (WebView) findViewById(R.id.webview);
+
+                /*String htmlText =recipe.getRecipeContent();
+                webview.getSettings().setLoadWithOverviewMode(true);
+                webview.getSettings().setUseWideViewPort(true);
+                webview.loadData(htmlText , "text/html; charset=UTF-8", null);*/
                 webview.loadUrl(url);
 
             }
